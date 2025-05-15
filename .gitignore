@@ -30,6 +30,7 @@ project.fragment.lock.json
 .vscode/
 .vs/
 packages/
+Interpolation/Properties/
 ## Временные файлы Visual Studio
 *.user
 *.suo
