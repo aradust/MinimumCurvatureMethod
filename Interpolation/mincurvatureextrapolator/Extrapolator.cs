@@ -55,23 +55,24 @@ namespace MinCurvMethod
                         double diag = (20.0 / hx4 + 20.0 / hy4) + lambda;
 
                         // Центральные окрестности
-                        sum += Z_old[ i - 1, j] * (-8.0 / hx4);
-                        sum += Z_old[ i + 1, j] * (-8.0 / hx4);
-                        sum += Z_old[ i, j - 1] * (-8.0 / hy4);
-                        sum += Z_old[ i, j + 1] * (-8.0 / hy4);
+                        // Центральные окрестности
+                        sum += GetZ(Z_old, i - 1, j, nx, ny) * (-8.0 / hx4);
+                        sum += GetZ(Z_old, i + 1, j, nx, ny) * (-8.0 / hx4);
+                        sum += GetZ(Z_old, i, j - 1, nx, ny) * (-8.0 / hy4);
+                        sum += GetZ(Z_old, i, j + 1, nx, ny) * (-8.0 / hy4);
 
                         // Краевые точки на 2
-                        sum += Z_old[ i - 2, j] * (2.0 / hx4);
-                        sum += Z_old[ i + 2, j] * (2.0 / hx4);
-                        sum += Z_old[ i, j - 2] * (2.0 / hy4);
-                        sum += Z_old[ i, j + 2] * (2.0 / hy4);
+                        sum += GetZ(Z_old, i - 2, j, nx, ny) * (2.0 / hx4);
+                        sum += GetZ(Z_old, i + 2, j, nx, ny) * (2.0 / hx4);
+                        sum += GetZ(Z_old, i, j - 2, nx, ny) * (2.0 / hy4);
+                        sum += GetZ(Z_old, i, j + 2, nx, ny) * (2.0 / hy4);
 
                         // Диагонали (смешанные производные)
                         double mix = 4.0 / (hx2 * hy2);
-                        sum += Z_old[ i - 1, j - 1] * mix;
-                        sum += Z_old[i - 1, j + 1] * mix;
-                        sum += Z_old[ i + 1, j - 1] * mix;
-                        sum += Z_old[ i + 1, j + 1] * mix;
+                        sum += GetZ(Z_old, i - 1, j - 1, nx, ny) * mix;
+                        sum += GetZ(Z_old, i - 1, j + 1, nx, ny) * mix;
+                        sum += GetZ(Z_old, i + 1, j - 1, nx, ny) * mix;
+                        sum += GetZ(Z_old, i + 1, j + 1, nx, ny) * mix;
 
                         // Новое значение с релаксацией
                         double newZ = -sum / diag;
@@ -102,7 +103,21 @@ namespace MinCurvMethod
                     grid.Z[i, j] = Z_old[i, j];
         }
 
-       
+        /// <summary>
+        /// Безопасное обращение к Z[i, j]
+        /// </summary>
+        ///<param name="Z">матрица значений Z</param>
+        ///<param name="i">индекс по x</param>
+        ///<param name="j">индекс по y</param>
+        ///<param name="nx">размерность сетки по x</param>
+        ///<param name="ny">размерность сетки по y</param>
+        ///<returns>значение z типа double, если оно корректно, иначе 0</returns>>
+        private static double GetZ(double[,] Z, int i, int j, int nx, int ny)
+        {
+            if (i >= 0 && i < nx && j >= 0 && j < ny)
+                return Z[i, j];
+            return 0.0;
+        }
 
     }
 }
