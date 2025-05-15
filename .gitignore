@@ -36,6 +36,7 @@ Interpolation/Properties/
 *.suo
 *.userosscache
 *.sln.docstates
+*.csproj
 
 ## Сборка
 [Bb]in/
