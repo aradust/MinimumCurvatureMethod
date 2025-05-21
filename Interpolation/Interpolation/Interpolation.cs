@@ -102,7 +102,7 @@ namespace MinCurvMethod
                             {
                                 grid.Z[i, j] = p.Z;
                                 grid.Known[i, j] = true;
-                                goto NextPoint;  // Переходим к следующей точке
+                                continue; 
                             }
 
                             double w = Rfunc(r, wfunc);
@@ -122,7 +122,7 @@ namespace MinCurvMethod
                             grid.Known[i, j] = false;
                         }
 
-                    NextPoint:;
+                  
                     }
                 }
             }
