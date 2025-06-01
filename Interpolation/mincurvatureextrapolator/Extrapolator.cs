@@ -14,7 +14,7 @@ namespace MinCurvMethod
      ///<param name="tolerance">точность итерационного метода</param>
      ///<param name="maxIter">ограничитель итераций</param>
      ///<param name="omega">параметр релаксации</param>
-        public static void Extrapolate(int stepX, int stepY, Grid grid, double lambda = 0, double tolerance = 1e-6, int maxIter = 1000, double omega = 0.1)
+        public static void Extrapolate(int stepX, int stepY, Grid grid, double lambda = 0, double tolerance = 1e-6, int maxIter = 1000)
         {
             //перезаписываем размерность сетки (для удобства)
             int nx = grid.Nx;
@@ -76,10 +76,9 @@ namespace MinCurvMethod
 
                         // Новое значение с релаксацией
                         double newZ = -sum / diag;
-                        double relaxedZ = (1 - omega) * Z_old[i, j] + omega * newZ;
-                        Z_new[i, j] = relaxedZ;
+                        Z_new[i, j] = newZ;
 
-                        maxDiff = Math.Max(maxDiff, Math.Abs(Z_old[i, j] - relaxedZ));
+                        maxDiff = Math.Max(maxDiff, Math.Abs(Z_old[i, j] - newZ));
                     }
                 }
 
